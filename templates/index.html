@@ -4,33 +4,44 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <title>Bootstrap demo</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Morse code converter</title>
   </head>
   <body>
   <div class="container">
     <h1>Morse Code Converter</h1>
+    <hr>
 
     <form action="{{url_for('home')}}" method="post">
       <div>
-        <label for="input_text" class="form-label">Input your message: </label>
+        <h5> Input your message: </h5>
+        {% if previous_input: %}
+                <textarea class="form-control" id="input_reshow" rows="5" name="input"> {{ previous_input }} </textarea>
+        {% else %}
         <textarea class="form-control" id="input_text" rows="5" name="input" placeholder="Enter your plain text or morse code message here to encrypt/decrypt the message. Morse code should use dashes ('-') and periods ('.') to illustrate characters. Characters should be separated by a space, while words should be separated by a slash ('/')." ></textarea>
+        {% endif %}
       </div>
       <div>
-        <button type="submit" class="btn btn-primary">Encrypt/Decrypt Code!</button>
+        <button type="submit" class="btn btn-dark">Encrypt/Decrypt Code!</button>
       </div>
     </form>
 
+
+
     {% if message %}
-    <h4>Your message {{ type }}ed</h4>
-    <p>{{ message }}</p>
+    <h5>Your message {{ type }}ed:</h5>
+    <div class="container output">
+    <h4 class="output_message">{{ message }}</h4>
+      </div>
     {% elif error %}
-    <h4> There was an error in {{ type }}ing your message... </h4>
-    <h4> The following characters or sequences could not be {{ type }}ed: </h4>
-    <p> {{ error }} </p>
+      <h4 class="error">Oops!</h4>
+    <p> The following character(s) or sequences could not be {{ type }}ed: </p>
+    <div class="container output">
+    <h4 class="error"> {{ error }} </h4>
+      </div>
     {% endif %}
+  </div>
 
-
-    </div>
 
 
 
